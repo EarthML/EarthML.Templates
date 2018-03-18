@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <OutputType>exe</OutputType>
+    <TargetFrameworks>netcoreapp2.0;net461</TargetFrameworks>
+    <ResolvedRazorCompileToolset>RazorSdk</ResolvedRazorCompileToolset>
+    <RazorCompileOnBuild>true</RazorCompileOnBuild>
+    <IncludeContentInPack>false</IncludeContentInPack>
+  </PropertyGroup>
+
+
+
+  <ItemGroup>
+    <Content Include="Templates\**\*.cshtml" />
+  </ItemGroup>
+
+
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.1.0-preview1-final" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.0-preview1-final" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="2.1.0-preview1-final" />
+  </ItemGroup>
+
+
+  
+  <ItemGroup>
+    <ProjectReference Include="..\EarthML.Templates\EarthML.Templates.csproj" />
+  </ItemGroup>
+
+</Project>
