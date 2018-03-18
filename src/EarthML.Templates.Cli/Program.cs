@@ -7,8 +7,10 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using EarthML.Templates;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Internal;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -40,8 +42,34 @@ namespace Mvc.RenderViewToString
 
                
                 var a = new EmailTemplateService();
-                Console.WriteLine(a.RenderViewAsync().Result);
+                Console.WriteLine(a.RenderViewAsync("Templates/Layouts/SaltedResponsiveEmailTemplate.cshtml").Result);
             }
+
+
+            var host = new WebHostBuilder()
+              .UseKestrel()
+              .UseContentRoot(Directory.GetCurrentDirectory())
+              .ConfigureServices((builder, services) =>
+              {
+
+              }).ConfigureAppConfiguration(builder =>
+              {
+
+              }).Configure(builder =>
+              {
+                  builder.Use(async (ctx,next)=>
+                  {
+                      var a = new EmailTemplateService();
+
+                      await ctx.Response.WriteAsync(await a.RenderViewAsync($"Templates/{ctx.Request.Path}.cshtml"));
+
+
+
+                  });
+              })
+              .Build();
+
+            host.Run();
         }
 
         public static IServiceScopeFactory InitializeServices(string customApplicationBasePath = null)

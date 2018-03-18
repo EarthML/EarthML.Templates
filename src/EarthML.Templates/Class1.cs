@@ -39,6 +39,7 @@ namespace EarthML.Templates
         public int UserData1 { get; set; }
 
         public int UserData2 { get; set; }
+        public string Title { get; internal set; }
     }
     public class EmailTemplateService
     {
@@ -63,7 +64,7 @@ namespace EarthML.Templates
             return serviceProvider.GetRequiredService<IServiceScopeFactory>();
         }
 
-        public Task<string> RenderViewAsync()
+        public Task<string> RenderViewAsync(string path = "Templates/WelcomeMail.cshtml")
         {
             using (var serviceScope = scopeFactory.CreateScope())
             {
@@ -74,10 +75,11 @@ namespace EarthML.Templates
                     UserName = "User",
                     SenderName = "Sender",
                     UserData1 = 1,
-                    UserData2 = 2
+                    UserData2 = 2,
+                    Title="a"
                 };
 
-                return helper.RenderViewToStringAsync("Templates/WelcomeMail.cshtml", model);
+                return helper.RenderViewToStringAsync(path, model);
             }
         }
 
